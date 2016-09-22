@@ -1,4 +1,4 @@
 *.meta
-/Library/
-/obj/
-/ProjectSettings/
+/Library/*
+/obj/*
+/ProjectSettings/*
