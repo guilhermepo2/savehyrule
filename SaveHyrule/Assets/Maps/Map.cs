@@ -14,7 +14,7 @@ public abstract class Map {
 	}
 
 	public int manhattan_distance(int x1, int x2, int y1, int y2) {
-		return (10 * (Mathf.Abs(x1 - x2)+Mathf.Abs(y1 - y2)));
+		return (10 * ( Mathf.Abs(x1 - x2) + Mathf.Abs(y1 - y2) ));
 	}
 
 
@@ -32,6 +32,9 @@ public abstract class Map {
 
 	public bool visit(int x, int y)
 	{
+		if (x >= map.Count || y >= map.Count || x < 0 || y < 0)
+			return false;
+		
 		if (visited [x] [y]) {
 			return false;
 		} else {
@@ -49,14 +52,27 @@ public abstract class Map {
 		}
 	}
 
-	public void setHeuristicValue (int x, int y)
+
+	// ta errado aqui
+
+	public void createHeuristicBoard()
 	{
 		h = new List<List<int>> ();
 
 		for (int i = 0; i < map.Count; i++) {
 			h.Add (new List<int> ());
 			for (int j = 0; j < map.Count; j++) {
-				h [i].Add (manhattan_distance(x, i, y, j));
+				h [i].Add (0);
+			}
+		}
+	}
+
+	// setHeuristicValue -> assume que o board de heuristica ja foi criado
+	public void setHeuristicValue (int x, int y)
+	{
+		for (int i = 0; i < map.Count; i++) {
+			for (int j = 0; j < map.Count; j++) {
+				h [i] [j] = manhattan_distance (x, i, y, j);
 			}
 		}
 	}

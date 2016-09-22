@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour {
 
 	/*
 	 * Classe Tile que contem a posição do Tile no mapa (Vector2)
-	 * - contém o valor de heurística (f(n) + h(n))
+	 * - contém o valor de heurística (g(n) + h(n))
 	 * - contém o valor do custo do caminho percorrido até chegar naquele nodo
 	 * - contém uma referência ao nodo pai, o nodo que o originou na busca, afim de facilitar o backtracking
 	 */
@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour {
 	// armazenar os custos dos caminhos
 	private int custoCaminho = 0;
 	private int custoAcumulado = 0;
+	// tempo de delay para mostrar os passos da execucao do A*
+	private float delayTime = 0f;
 
 	// Pilha que armazena a posição dos objetivos do agente
 	List<Vector2> positionStack = new List<Vector2>();
@@ -277,7 +279,7 @@ public class GameManager : MonoBehaviour {
 	 * na lista de proximos a serem expandidos
 	 * 
 	 */
-	private IEnumerator expandNode(Tile node) {
+	private void expandNode(Tile node) {
 
 		//Debug.Log ("expanding node");
 		Vector2 pos;
@@ -330,7 +332,6 @@ public class GameManager : MonoBehaviour {
 			this.insertOnQueueList (new Tile (pos, h, g_value, node));
 			HyruleMapManager.getInstance ().markOpen ((int)pos.x, (int)pos.y);
 		}
-		yield return new WaitForSeconds (10.0f);
 	}
 
 
@@ -383,8 +384,8 @@ public class GameManager : MonoBehaviour {
 		// Marca na interface gráfica que o nodo foi expandido
 		HyruleMapManager.getInstance ().markClosed ((int)evaluating.getPosition().x, (int)evaluating.getPosition().y );
 		// Faz a expansão do nodo
-		StartCoroutine(expandNode (evaluating));
-		yield return new WaitForSeconds (0.01f);
+		expandNode (evaluating);
+		yield return new WaitForSeconds (delayTime);
 
 		// Prepara o próximo nodo para ser avaliado pelo mesmo próximo feito anteriormente
 		evaluating = evaluationQueue [0];
@@ -399,8 +400,8 @@ public class GameManager : MonoBehaviour {
 
 		// Executa essas ações já descritas acima enquanto houverem elementos a serem avaliados
 		while (evaluationQueue.Count > 0) {
-			StartCoroutine(expandNode (evaluating));
-			yield return new WaitForSeconds (0.01f);
+			expandNode (evaluating);
+			yield return new WaitForSeconds (delayTime);
 
 			// Caso o nodo atual seja o objetivo
 			if (evaluating.getPosition () == goal) {
@@ -432,7 +433,7 @@ public class GameManager : MonoBehaviour {
 	 */
 	private IEnumerator move_to(List<char> moveSequence)
 	{
-		Debug.Log ("movimentos: " + moveSequence.Count);
+		//Debug.Log ("movimentos: " + moveSequence.Count);
 		for (int i = 0; i < moveSequence.Count; i++) {
 			switch (moveSequence [i]) {
 			case 'U':
@@ -448,10 +449,12 @@ public class GameManager : MonoBehaviour {
 				player.GetComponent<Player> ().goRight ();
 				break;
 			}
-			yield return new WaitForSeconds (0.2f);
+
+			UserInterface.getInstance ().setActualTileCost (HyruleMapManager.getInstance().getCostForTile((int)player.transform.position.x, (int)player.transform.position.y));
+			yield return new WaitForSeconds (0.1f);
 		}
 
-		yield return new WaitForSeconds (1.0f);
+		//yield return new WaitForSeconds (1.0f);
 		movements.Clear();
 
 		string objective = HyruleMapManager.getInstance ().reachedObjectiveAction ((int)player.transform.position.x, (int)player.transform.position.y);

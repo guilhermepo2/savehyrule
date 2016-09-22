@@ -193,7 +193,7 @@ public class HyruleMapManager : MonoBehaviour {
 		masterSwordReference.transform.eulerAngles = new Vector3 (masterSwordReference.transform.eulerAngles.x, masterSwordReference.transform.eulerAngles.y, masterSwordReference.transform.eulerAngles.z + 90);
 
 		if(whereFrom >= 0)
-			playerRef.transform.position = new Vector3 (dungeonPositions[whereFrom].y- (map.getCount() / 2) , dungeonPositions[whereFrom].x - (map.getCount() / 2), playerRef.transform.position.z);
+			playerRef.transform.position = new Vector3 (dungeonPositions[whereFrom].y - (map.getCount() / 2) , dungeonPositions[whereFrom].x - (map.getCount() / 2), playerRef.transform.position.z);
 	}
 
 	/*
@@ -227,7 +227,7 @@ public class HyruleMapManager : MonoBehaviour {
 
 		dungeonsExitReference[0] = Instantiate(dungeons[0], new Vector3(dungeonsExitPosition[0].y - (map.getCount() / 2), dungeonsExitPosition[0].x - (map.getCount() / 2), -1), Quaternion.identity) as GameObject;
 		dungeonsExitReference[0].transform.eulerAngles = new Vector3 (dungeonsExitReference[0].transform.eulerAngles.x, dungeonsExitReference[0].transform.eulerAngles.y, dungeonsExitReference[0].transform.eulerAngles.z + 90);
-		playerRef.transform.position = new Vector3 (dungeonsExitPosition[0].y - 1 - (map.getCount() / 2) , dungeonsExitPosition[0].x - (map.getCount() / 2) , playerRef.transform.position.z);
+		playerRef.transform.position = new Vector3 (dungeonsExitPosition[0].y- (map.getCount() / 2) , dungeonsExitPosition[0].x - (map.getCount() / 2) , playerRef.transform.position.z);
 	}
 
 	/*
@@ -262,7 +262,7 @@ public class HyruleMapManager : MonoBehaviour {
 
 		dungeonsExitReference[1] = Instantiate(dungeons[1], new Vector3(dungeonsExitPosition[1].y - (map.getCount() / 2), dungeonsExitPosition[1].x - (map.getCount() / 2), -1), Quaternion.identity) as GameObject;
 		dungeonsExitReference[1].transform.eulerAngles = new Vector3 (dungeonsExitReference[1].transform.eulerAngles.x, dungeonsExitReference[1].transform.eulerAngles.y, dungeonsExitReference[1].transform.eulerAngles.z + 90);
-		playerRef.transform.position = new Vector3 (dungeonsExitPosition[1].y - 1 - (map.getCount() / 2) , dungeonsExitPosition[1].x - (map.getCount() / 2) , playerRef.transform.position.z);
+		playerRef.transform.position = new Vector3 (dungeonsExitPosition[1].y - (map.getCount() / 2) , dungeonsExitPosition[1].x - (map.getCount() / 2) , playerRef.transform.position.z);
 	}
 
 	/*
@@ -297,7 +297,7 @@ public class HyruleMapManager : MonoBehaviour {
 
 		dungeonsExitReference[2] = Instantiate(dungeons[2], new Vector3(dungeonsExitPosition[2].y - (map.getCount() / 2), dungeonsExitPosition[2].x - (map.getCount() / 2), -1), Quaternion.identity) as GameObject;
 		dungeonsExitReference[2].transform.eulerAngles = new Vector3 (dungeonsExitReference[2].transform.eulerAngles.x, dungeonsExitReference[2].transform.eulerAngles.y, dungeonsExitReference[2].transform.eulerAngles.z + 90);
-		playerRef.transform.position = new Vector3 (dungeonsExitPosition[2].y - 1 - (map.getCount() / 2) , dungeonsExitPosition[2].x - (map.getCount() / 2) , playerRef.transform.position.z);
+		playerRef.transform.position = new Vector3 (dungeonsExitPosition[2].y - (map.getCount() / 2) , dungeonsExitPosition[2].x - (map.getCount() / 2) , playerRef.transform.position.z);
 	}
 
 
@@ -314,6 +314,12 @@ public class HyruleMapManager : MonoBehaviour {
 			Destroy (gameObject);
 
 		DontDestroyOnLoad (this);
+
+		hyruleMap.createHeuristicBoard();
+		dungeon1Map.createHeuristicBoard ();
+		dungeon2Map.createHeuristicBoard ();
+		dungeon3Map.createHeuristicBoard ();
+		map.createHeuristicBoard ();
 
 		// Criando os vetores de referências
 		dungeonsReference = new GameObject[dungeons.Length];
@@ -483,7 +489,9 @@ public class HyruleMapManager : MonoBehaviour {
 	 */
 	public void setHeuristicBoard(int x, int y)
 	{
-		map.setHeuristicValue (x + map.getCount()/2, y + map.getCount()/2);
+		Debug.Log ("settando heuristica para (" + x + ", " + y + ")");
+		Debug.Log ("settando heuristica para (" + (x + map.getCount()/2) + ", " + (y + map.getCount()/2) + ")");
+		map.setHeuristicValue ( (x + (map.getCount()/2)) , (y + (map.getCount()/2)) );
 	}
 
 	/*
@@ -503,7 +511,7 @@ public class HyruleMapManager : MonoBehaviour {
 	 */
 	public bool visit(int x, int y)
 	{
-		return map.visit (x + map.getCount() / 2, y + map.getCount() / 2);
+		return map.visit ((x + (map.getCount() / 2)), (y + (map.getCount() / 2)));
 	}
 
 	/*

@@ -25,11 +25,16 @@ File.readlines(input_file).each do |l|
   string_total = ""
   
   x.each do |a|
-    if(a == '0' and is_dungeon)
-      string_total = string_total + "'X',"
+    if(is_dungeon)
+      if(a == '0')
+        string_total = string_total + "'X',"
+      else
+        string_total = string_total + "'D',"
+      end
     else
-      string_total = string_total + "'D',"
+      string_total = string_total + "'#{a}',"
     end
+    
   end
 
   finalarq = finalarq + "new List<char> { #{string_total[0..(string_total.length() - 2)]} },\n"

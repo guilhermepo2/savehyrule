@@ -45,15 +45,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Maps\MainMap.cs" />
      <Compile Include="Assets\Maps\Map.cs" />
      <Compile Include="Assets\Maps\mapas\Dungeon1.cs" />
      <Compile Include="Assets\Maps\mapas\Dungeon2.cs" />
      <Compile Include="Assets\Maps\mapas\Dungeon3.cs" />
+     <Compile Include="Assets\Maps\mapas\MainMap.cs" />
      <Compile Include="Assets\Player\Player.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\HyruleMapManager.cs" />
-     <Compile Include="Assets\UserInterface.cs" />
+     <Compile Include="Assets\Scripts\UserInterface.cs" />
      <None Include="Assets\Fonts\codeman38_press-start\license.txt" />
      <None Include="Assets\Maps\mapas\mainmap.txt" />
      <None Include="Assets\Maps\mapas\dungeon3.txt" />
