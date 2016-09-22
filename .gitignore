@@ -1,4 +1,4 @@
 *.meta
-/Library/*
-/obj/*
-/ProjectSettings/*
+SaveHyrule/Library/*
+SaveHyrule/obj/*
+SaveHyrule/ProjectSettings/*
