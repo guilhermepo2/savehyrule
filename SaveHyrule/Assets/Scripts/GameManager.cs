@@ -42,6 +42,9 @@ public class GameManager : MonoBehaviour {
 	}
 
 
+	// armazenar os custos dos caminhos
+	private int custoCaminho = 0;
+	private int custoAcumulado = 0;
 
 	// Pilha que armazena a posição dos objetivos do agente
 	List<Vector2> positionStack = new List<Vector2>();
@@ -180,6 +183,12 @@ public class GameManager : MonoBehaviour {
 	private void insertMovement(Tile goal)
 	{
 		//Debug.Log ("found goal!");
+
+		// temos o objetivo, agora podemos atualizar os custos dos caminhos!
+		custoCaminho = goal.getG();
+		custoAcumulado = custoAcumulado + custoCaminho;
+		UserInterface.getInstance ().setCaminhoParcial (custoCaminho);
+		UserInterface.getInstance ().setCaminhoTotal (custoAcumulado);
 
 		Tile p = goal;
 		Vector2 pos;
@@ -423,6 +432,7 @@ public class GameManager : MonoBehaviour {
 	 */
 	private IEnumerator move_to(List<char> moveSequence)
 	{
+		Debug.Log ("movimentos: " + moveSequence.Count);
 		for (int i = 0; i < moveSequence.Count; i++) {
 			switch (moveSequence [i]) {
 			case 'U':

@@ -1,0 +1,23 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{7A68D757-64A8-3B51-BD57-092E34FBE12B}") = "SaveHyrule", "Assembly-CSharp.csproj", "{FB0245D2-561B-6C98-98EF-B73C297FC490}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FB0245D2-561B-6C98-98EF-B73C297FC490}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB0245D2-561B-6C98-98EF-B73C297FC490}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB0245D2-561B-6C98-98EF-B73C297FC490}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB0245D2-561B-6C98-98EF-B73C297FC490}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal

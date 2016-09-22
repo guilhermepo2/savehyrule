@@ -411,6 +411,9 @@ public class HyruleMapManager : MonoBehaviour {
 				 */
 				// O Agente chegou à Lost Woods e possui os três pingentes!
 				// YOU WIN
+				Destroy(closedTilesHolder);
+				Destroy(pathTilesHolder);
+				Destroy(openTilesHolder);
 				Debug.Log("YOU SAVED HYRULE CONGRATULATIONS");
 			}
 			return "lostwoods";
