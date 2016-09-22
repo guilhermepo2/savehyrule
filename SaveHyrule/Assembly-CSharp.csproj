@@ -54,6 +54,7 @@
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\HyruleMapManager.cs" />
      <Compile Include="Assets\Scripts\UserInterface.cs" />
+     <Compile Include="Assets\SoundManager.cs" />
      <None Include="Assets\Fonts\codeman38_press-start\license.txt" />
      <None Include="Assets\Maps\mapas\mainmap.txt" />
      <None Include="Assets\Maps\mapas\dungeon3.txt" />

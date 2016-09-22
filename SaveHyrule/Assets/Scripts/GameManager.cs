@@ -1,6 +1,10 @@
-﻿using UnityEngine;
+﻿#define VISUALIZE_ASTAR_STEPS
+
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+
+
 
 public class GameManager : MonoBehaviour {
 	/*
@@ -198,7 +202,9 @@ public class GameManager : MonoBehaviour {
 		while (p.getParent () != null) {
 
 			// Marca na interface que essa posição faz parte do caminho final
+			#if VISUALIZE_ASTAR_STEPS
 			HyruleMapManager.getInstance ().markPath ((int)p.getPosition().x, (int)p.getPosition().y);
+			#endif
 
 			// obtém a diferença entre a posição atual e do pai
 			pos = new Vector2 (p.getPosition().x - p.getParent().getPosition().x,
@@ -300,7 +306,9 @@ public class GameManager : MonoBehaviour {
 			this.insertOnQueueList (new Tile (pos, h, g_value, node));
 
 			// Marca na interface gráfica que o nodo foi aberto para expansão
+			#if VISUALIZE_ASTAR_STEPS
 			HyruleMapManager.getInstance ().markOpen ((int)pos.x, (int)pos.y);
+			#endif
 		}
 
 		// obtendo a posição do nodo resultado da expansão para baixo
@@ -310,7 +318,10 @@ public class GameManager : MonoBehaviour {
 			(HyruleMapManager.getInstance().getHeuristicValue((int)pos.x, (int)pos.y)));
 		if (h >= 0 && HyruleMapManager.getInstance ().visit ((int)pos.x, (int)pos.y)) {
 			this.insertOnQueueList (new Tile (pos, h, g_value, node));
+
+			#if VISUALIZE_ASTAR_STEPS
 			HyruleMapManager.getInstance ().markOpen ((int)pos.x, (int)pos.y);
+			#endif
 		}
 
 		// obtendo a posição do nodo resultado da expansão para a esquerda
@@ -320,7 +331,10 @@ public class GameManager : MonoBehaviour {
 			(HyruleMapManager.getInstance().getHeuristicValue((int)pos.x, (int)pos.y)));
 		if (h >= 0 && HyruleMapManager.getInstance ().visit ((int)pos.x, (int)pos.y)) {
 			this.insertOnQueueList (new Tile (pos, h, g_value, node));
+
+			#if VISUALIZE_ASTAR_STEPS
 			HyruleMapManager.getInstance ().markOpen ((int)pos.x, (int)pos.y);
+			#endif
 		}
 
 		// obtendo a posição do nodo resultado da expansão para a direita
@@ -330,7 +344,10 @@ public class GameManager : MonoBehaviour {
 			(HyruleMapManager.getInstance().getHeuristicValue((int)pos.x, (int)pos.y)));
 		if (h >= 0 && HyruleMapManager.getInstance ().visit ((int)pos.x, (int)pos.y)) {
 			this.insertOnQueueList (new Tile (pos, h, g_value, node));
+
+			#if VISUALIZE_ASTAR_STEPS
 			HyruleMapManager.getInstance ().markOpen ((int)pos.x, (int)pos.y);
+			#endif
 		}
 	}
 
@@ -382,10 +399,16 @@ public class GameManager : MonoBehaviour {
 		closeEvaluations.Add (evaluating);
 
 		// Marca na interface gráfica que o nodo foi expandido
+		#if VISUALIZE_ASTAR_STEPS
 		HyruleMapManager.getInstance ().markClosed ((int)evaluating.getPosition().x, (int)evaluating.getPosition().y );
+		#endif
+
 		// Faz a expansão do nodo
 		expandNode (evaluating);
+
+		#if VISUALIZE_ASTAR_STEPS
 		yield return new WaitForSeconds (delayTime);
+		#endif
 
 		// Prepara o próximo nodo para ser avaliado pelo mesmo próximo feito anteriormente
 		evaluating = evaluationQueue [0];
@@ -396,12 +419,17 @@ public class GameManager : MonoBehaviour {
 		}
 		evaluationQueue.Remove (evaluating);
 		closeEvaluations.Add (evaluating);
+
+		#if VISUALIZE_ASTAR_STEPS
 		HyruleMapManager.getInstance ().markClosed ((int)evaluating.getPosition().x, (int)evaluating.getPosition().y );
+		#endif
 
 		// Executa essas ações já descritas acima enquanto houverem elementos a serem avaliados
 		while (evaluationQueue.Count > 0) {
 			expandNode (evaluating);
+			#if VISUALIZE_ASTAR_STEPS
 			yield return new WaitForSeconds (delayTime);
+			#endif
 
 			// Caso o nodo atual seja o objetivo
 			if (evaluating.getPosition () == goal) {
@@ -409,7 +437,11 @@ public class GameManager : MonoBehaviour {
 				insertMovement (evaluating);
 				// O Agente então se movimenta
 				StartCoroutine (move_to (movements));
+				#if VISUALIZE_ASTAR_STEPS
 				return true;
+				#else
+				yield return new WaitForSeconds(delayTime);
+				#endif
 			}
 
 			evaluating = evaluationQueue [0];
@@ -420,7 +452,9 @@ public class GameManager : MonoBehaviour {
 			}
 			evaluationQueue.Remove (evaluating);
 			closeEvaluations.Add (evaluating);
+			#if VISUALIZE_ASTAR_STEPS
 			HyruleMapManager.getInstance ().markClosed ((int)evaluating.getPosition().x, (int)evaluating.getPosition().y );
+			#endif
 		}
 	}
 

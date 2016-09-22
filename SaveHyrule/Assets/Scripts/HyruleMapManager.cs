@@ -3,6 +3,12 @@ using System.Collections;
 
 public class HyruleMapManager : MonoBehaviour {
 
+	// Sons
+	public AudioClip hyruleMusic;
+	public AudioClip dungeonMusic;
+	public AudioClip endingMusic;
+	public AudioClip itemEfx;
+
 
 	// Variáveis relacionadas ao mapa
 	// Guarda a referência de cada mapa do mundo do problema
@@ -112,6 +118,8 @@ public class HyruleMapManager : MonoBehaviour {
 		Destroy (tilesHolder);
 		tilesHolder = new GameObject ("Tiles Holder");
 
+		SoundManager.getInstance ().changeMusic (dungeonMusic);
+
 		int index = 0;
 		for (int x = (-1 * map.getCount () / 2);
 			x < (map.getCount () / 2); x++) {
@@ -139,6 +147,7 @@ public class HyruleMapManager : MonoBehaviour {
 	 */
 	void Hyrule(int whereFrom)
 	{
+		SoundManager.getInstance ().changeMusic (hyruleMusic);
 		if (tilesHolder)
 			Destroy (tilesHolder);
 
@@ -417,6 +426,7 @@ public class HyruleMapManager : MonoBehaviour {
 				 */
 				// O Agente chegou à Lost Woods e possui os três pingentes!
 				// YOU WIN
+				SoundManager.getInstance ().changeMusic (endingMusic);
 				Destroy(closedTilesHolder);
 				Destroy(pathTilesHolder);
 				Destroy(openTilesHolder);
@@ -424,14 +434,17 @@ public class HyruleMapManager : MonoBehaviour {
 			}
 			return "lostwoods";
 		} else if (position == pendantsPositions [0]) {
+			SoundManager.getInstance ().PlaySingle (itemEfx);
 			Destroy (pendantsReference [0]);
 			pendantsTaken [0] = true;
 			return "pendant0";
 		} else if (position == pendantsPositions [1]) {
+			SoundManager.getInstance ().PlaySingle (itemEfx);
 			Destroy (pendantsReference [1]);
 			pendantsTaken [1] = true;
 			return "pendant1";
 		} else if (position == pendantsPositions [2]) {
+			SoundManager.getInstance ().PlaySingle (itemEfx);
 			Destroy (pendantsReference [2]);
 			pendantsTaken [2] = true;
 			return "pendant2";
