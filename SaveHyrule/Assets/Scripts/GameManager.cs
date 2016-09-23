@@ -204,8 +204,7 @@ public class GameManager : MonoBehaviour {
 	void Start()
 	{
 		// Obtendo a Referência do Agente
-		player = GameObject.Find ("HyruleMapManager").GetComponent<HyruleMapManager> ().getPlayerReference ();
-
+		player = HyruleMapManager.getInstance().getPlayerReference();
 
 		// Comentários auxiliares durante a implementação
 
@@ -611,9 +610,9 @@ public class GameManager : MonoBehaviour {
 			//Debug.Log ("popping objective");
 			objective = this.pop ();
 			StartCoroutine (astar_search (objective));
-		} else {
-			player.GetComponent<Player>().gotPendant ();
 		}
+		if(positionStack.Count == 0)
+			player.GetComponent<Player>().gotPendant ();
 	}
 
 	void Update () {

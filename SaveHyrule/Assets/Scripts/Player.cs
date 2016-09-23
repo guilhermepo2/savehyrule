@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
 /*
  * O Player faz o papel de Agente Inteligente, possuindo 4 possíveis ações: 
  * 

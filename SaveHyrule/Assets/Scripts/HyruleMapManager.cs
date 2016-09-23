@@ -149,6 +149,7 @@ public class HyruleMapManager : MonoBehaviour {
 	void Hyrule(int whereFrom)
 	{
 		SoundManager.getInstance ().changeMusic (hyruleMusic);
+
 		if (tilesHolder)
 			Destroy (tilesHolder);
 

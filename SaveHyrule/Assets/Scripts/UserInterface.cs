@@ -55,7 +55,6 @@ public class UserInterface : MonoBehaviour {
 	{
 		if (alpha >= 0.7f)
 			alpha = 0.7f;
-		fadeOutTexture.alphaIsTransparency = true;
 		alpha += fadeDir * fadeSpeed * Time.deltaTime;
 		alpha = Mathf.Clamp01(alpha);
 		GUI.color = new Color(GUI.color.r, GUI.color.g, GUI.color.b, alpha);
