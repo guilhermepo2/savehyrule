@@ -113,6 +113,93 @@ public class GameManager : MonoBehaviour {
 		return v;
 	}
 
+
+	/*
+	 * 
+	 * Função que resolve o problema do caixeiro viajante utilizando
+	 * algoritmo Hillclimbing
+	 * 
+	 * O primeiro candidato é a própria lista dos nodos
+	 * A troca de posição se dá da seguinte forma:
+	 * É selecionado o ultimo nodo, a cada iteração ele troca com o de sua esquerda
+	 * Caso ele seja o primeiro nodo do vetor, o último atual é selecionado
+	 * Esse processo se repete até que o último atual seja igual ao primeiro último
+	 */
+
+	public void travelSalesman(Vector2 starting_point, List<Vector2> nodes)
+	{
+		Debug.Log ("Executando o Travel Salesman!");
+		if (nodes.Count == 1)
+			return;
+			//cabo
+
+		// O primeiro candidato vai ser a sequência 0, ..., n dos nodos
+		List<int> solution = new List<int>();
+		List<int> candidate = new List<int>();
+		for (int i = 0; i < nodes.Count; i++) {
+			candidate.Add (i);
+			solution.Add (i);
+		}
+
+		// avalia a função e faz trocas de posições
+		float evaluation = 0;
+		// holds the value of the first chosen
+		int first_chosen = candidate[0];
+		// chose the index of the first chosen
+		int actual_chosen = candidate.Count - 1;
+
+		// calcula o valor da iteracao atual
+		evaluation += Vector2.Distance(starting_point, nodes[solution[0]]);
+		for (int i = 0; i < candidate.Count - 1; i++) {
+			evaluation += Vector2.Distance (nodes [solution [i]], nodes [solution [i + 1]]);
+		}
+		evaluation += Vector2.Distance(nodes[solution[solution.Count - 1]], starting_point);
+
+		// troca o atual para a esquerda
+		if (actual_chosen > 0) {
+			int aux = candidate [actual_chosen];
+			candidate [actual_chosen] = candidate [actual_chosen - 1];
+			candidate [actual_chosen - 1] = aux;
+			actual_chosen--;
+		} else
+			actual_chosen = candidate.Count - 1;
+		
+		// comeca o loop
+		float new_evaluation;
+		while (first_chosen != candidate [actual_chosen]) {
+			Debug.Log ("Loop do Travel Salesman!");
+			new_evaluation = 0;
+
+			evaluation += Vector2.Distance(starting_point, nodes[candidate[0]]);
+			for (int i = 0; i < candidate.Count - 1; i++) {
+				evaluation += Vector2.Distance (nodes [solution [i]], nodes [candidate [i + 1]]);
+			}
+			evaluation += Vector2.Distance(nodes[candidate[solution.Count - 1]], starting_point);
+
+			if (new_evaluation < evaluation) {
+				evaluation = new_evaluation;
+				for (int i = 0; i < candidate.Count; i++) {
+					solution [i] = candidate [i];
+				}
+			}
+
+			if (actual_chosen > 0) {
+				int aux = candidate [actual_chosen];
+				candidate [actual_chosen] = candidate [actual_chosen - 1];
+				candidate [actual_chosen - 1] = aux;
+				actual_chosen--;
+			} else
+				actual_chosen = candidate.Count - 1;
+
+		}
+
+		// aqui devemos ter a solucao no vetor de solution
+		// agora so empilhar o starting point e os nodos na ordem
+		for (int i = 0; i < solution.Count; i++) {
+			this.push (nodes[solution[i]]);
+		}
+	}
+
 	// Função Start() do Unity, executada ao iniciar a execução do programa
 	void Start()
 	{

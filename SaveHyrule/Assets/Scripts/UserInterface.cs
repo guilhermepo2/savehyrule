@@ -41,4 +41,38 @@ public class UserInterface : MonoBehaviour {
 	{
 		caminhoTotal.text = ("g(n) total = " + valor);
 	}
+
+	public Texture2D fadeOutTexture; //texture that will overlay the screen
+	public float fadeSpeed = 0.8f;   // fade velocity
+
+	private int drawDepth = -1000;
+	private float alpha = 1.0f;
+	private int fadeDir = -1;       // fade Direction
+	// -1 -> black to clear
+	// 1  -> into black screen
+
+	void OnGUI()
+	{
+		if (alpha >= 0.7f)
+			alpha = 0.7f;
+		fadeOutTexture.alphaIsTransparency = true;
+		alpha += fadeDir * fadeSpeed * Time.deltaTime;
+		alpha = Mathf.Clamp01(alpha);
+		GUI.color = new Color(GUI.color.r, GUI.color.g, GUI.color.b, alpha);
+		GUI.depth = drawDepth;
+		GUI.DrawTexture (new Rect(0,0, Screen.width, Screen.height), fadeOutTexture);
+	}
+
+	private float beginFade (int direction)
+	{
+		fadeDir = direction;
+		return (fadeSpeed);	
+	}
+
+	public IEnumerator finished()
+	{
+		fadeSpeed = 0.05f;
+		float fadeTime = beginFade (1);
+		yield return new WaitForSeconds (fadeTime);
+	}
 }

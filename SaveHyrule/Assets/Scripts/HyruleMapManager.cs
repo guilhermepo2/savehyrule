@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class HyruleMapManager : MonoBehaviour {
 
@@ -367,9 +368,19 @@ public class HyruleMapManager : MonoBehaviour {
 		 */
 
 
-		GameManager.getInstance ().push (new Vector2(dungeonPositions [1].y - (map.getCount()/2), dungeonPositions[1].x - (map.getCount()/2)));
-		GameManager.getInstance ().push (new Vector2(dungeonPositions [2].y - (map.getCount()/2), dungeonPositions[2].x - (map.getCount()/2)));
-		GameManager.getInstance ().push (new Vector2(dungeonPositions [0].y - (map.getCount()/2), dungeonPositions[0].x - (map.getCount()/2)));
+		// PASSANDO AS DUNGEONS PARA O ALGORITMO DE TRAVELING SALESMAN (HILL CLIMBING) DO GAME MANAGER
+		// PARA QUE ELE POSSA RESOLVER O CAIXEIRO VIAJANTE E EMPILHAR CORRETAMENTE
+		List<Vector2> nodesTS = new List<Vector2>();
+		Vector2 starting_point = new Vector2 (playerStartingPosition.y - (map.getCount()/2), playerStartingPosition.x - (map.getCount()/2));
+		nodesTS.Add(new Vector2(dungeonPositions [1].y - (map.getCount()/2), dungeonPositions[1].x - (map.getCount()/2)));
+		nodesTS.Add(new Vector2(dungeonPositions [2].y - (map.getCount()/2), dungeonPositions[2].x - (map.getCount()/2)));
+		nodesTS.Add(new Vector2(dungeonPositions [0].y - (map.getCount()/2), dungeonPositions[0].x - (map.getCount()/2)));
+
+		GameManager.getInstance ().travelSalesman (starting_point, nodesTS);
+
+		//GameManager.getInstance ().push (new Vector2(dungeonPositions [1].y - (map.getCount()/2), dungeonPositions[1].x - (map.getCount()/2)));
+		//GameManager.getInstance ().push (new Vector2(dungeonPositions [2].y - (map.getCount()/2), dungeonPositions[2].x - (map.getCount()/2)));
+		//GameManager.getInstance ().push (new Vector2(dungeonPositions [0].y - (map.getCount()/2), dungeonPositions[0].x - (map.getCount()/2)));
 
 		// Instanciando o Agente e guardando sua referência
 		playerRef = Instantiate (player, new Vector3 (playerStartingPosition.y - (map.getCount() / 2),  playerStartingPosition.x - (map.getCount()/2) , -9), Quaternion.identity) as GameObject;
@@ -430,6 +441,7 @@ public class HyruleMapManager : MonoBehaviour {
 				Destroy(closedTilesHolder);
 				Destroy(pathTilesHolder);
 				Destroy(openTilesHolder);
+				StartCoroutine (UserInterface.getInstance ().finished ());
 				Debug.Log("YOU SAVED HYRULE CONGRATULATIONS");
 			}
 			return "lostwoods";
@@ -502,8 +514,8 @@ public class HyruleMapManager : MonoBehaviour {
 	 */
 	public void setHeuristicBoard(int x, int y)
 	{
-		Debug.Log ("settando heuristica para (" + x + ", " + y + ")");
-		Debug.Log ("settando heuristica para (" + (x + map.getCount()/2) + ", " + (y + map.getCount()/2) + ")");
+		//Debug.Log ("settando heuristica para (" + x + ", " + y + ")");
+		//Debug.Log ("settando heuristica para (" + (x + map.getCount()/2) + ", " + (y + map.getCount()/2) + ")");
 		map.setHeuristicValue ( (x + (map.getCount()/2)) , (y + (map.getCount()/2)) );
 	}
 

@@ -14,7 +14,7 @@ public abstract class Map {
 	}
 
 	public int manhattan_distance(int x1, int x2, int y1, int y2) {
-		return (4 * ( Mathf.Abs(x1 - x2) + Mathf.Abs(y1 - y2) ));
+		return (9 * ( Mathf.Abs(x1 - x2) + Mathf.Abs(y1 - y2) ));
 	}
 
 
