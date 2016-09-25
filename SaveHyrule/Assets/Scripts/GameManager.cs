@@ -1,4 +1,4 @@
-﻿#define VISUALIZE_ASTAR_STEPS
+﻿//#define VISUALIZE_ASTAR_STEPS
 
 using UnityEngine;
 using System.Collections;
@@ -258,7 +258,7 @@ public class GameManager : MonoBehaviour {
 		 */
 
 		// Função que dará inicio aos planejamentos e ações do agente
-		saveHyrule ();
+		//saveHyrule ();
 	}
 
 	/*

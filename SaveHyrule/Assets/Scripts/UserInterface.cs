@@ -7,12 +7,46 @@ public class UserInterface : MonoBehaviour {
 	public Text caminhoParcial;
 	public Text caminhoTotal;
 	public Text debugMessage;
+	public GameObject initialScreen;
+	public GameObject endingScreen;
+	private GameObject initialScreenReference;
+	private GameObject endingScreenReference;
+
+	private bool beggining;
+	private bool ending;
 
 	public static UserInterface instance = null;
 
 	public static UserInterface getInstance()
 	{
 		return instance;
+	}
+
+	void Start()
+	{
+		beggining = true;
+		ending = false;
+
+		initialScreenReference = Instantiate (initialScreen) as GameObject;
+	}
+
+	void Update()
+	{
+		if(beggining)
+		{
+			StartCoroutine(begin ());
+			if (Input.GetKeyDown (KeyCode.Return)) {
+				beggining = false;
+				Destroy (initialScreenReference);
+				GameManager.getInstance ().saveHyrule ();
+			}
+		}
+
+		if (ending) {
+			if (Input.GetKeyDown (KeyCode.Return)) {
+				Destroy (endingScreenReference);
+			}
+		}
 	}
 
 	void Awake()
@@ -53,6 +87,7 @@ public class UserInterface : MonoBehaviour {
 
 	void OnGUI()
 	{
+
 		if (alpha >= 0.7f)
 			alpha = 0.7f;
 		alpha += fadeDir * fadeSpeed * Time.deltaTime;
@@ -68,10 +103,19 @@ public class UserInterface : MonoBehaviour {
 		return (fadeSpeed);	
 	}
 
+	public IEnumerator begin()
+	{
+		fadeSpeed = 0.05f;
+		float fadeTime = beginFade (-1);
+		yield return new WaitForSeconds (fadeTime);
+	}
+
 	public IEnumerator finished()
 	{
 		fadeSpeed = 0.05f;
 		float fadeTime = beginFade (1);
 		yield return new WaitForSeconds (fadeTime);
+		endingScreenReference = Instantiate (endingScreen) as GameObject;
+		ending = true;
 	}
 }
