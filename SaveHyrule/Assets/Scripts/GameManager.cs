@@ -1,4 +1,4 @@
-﻿//#define VISUALIZE_ASTAR_STEPS
+﻿#define VISUALIZE_ASTAR_STEPS
 
 using UnityEngine;
 using System.Collections;

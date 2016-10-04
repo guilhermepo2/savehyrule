@@ -342,12 +342,6 @@ public class HyruleMapManager : MonoBehaviour {
 		for (int i = 0; i < pendantsTaken.Length; i++)
 			pendantsTaken [i] = false;
 
-		// Renderiza o mapa de Hyrule, indicando que é o inicio
-		Hyrule (-1);
-
-		// Adicionando Lost Wood à pilha de Objetivos, afinal, esse é o objetivo principal
-
-		GameManager.getInstance ().push (new Vector2(lostWoodsPosition.y - (map.getCount()/2), lostWoodsPosition.x - (map.getCount()/2)));
 
 		// Link deve voltar à sua casa antes de partir?
 		//GameManager.getInstance ().push (new Vector2(playerStartingPosition.y - map.getCount() / 2, playerStartingPosition.x - map.getCount() / 2);
@@ -368,6 +362,24 @@ public class HyruleMapManager : MonoBehaviour {
 		 * na pilha de objetivos
 		 */
 
+		//GameManager.getInstance ().push (new Vector2(dungeonPositions [1].y - (map.getCount()/2), dungeonPositions[1].x - (map.getCount()/2)));
+		//GameManager.getInstance ().push (new Vector2(dungeonPositions [2].y - (map.getCount()/2), dungeonPositions[2].x - (map.getCount()/2)));
+		//GameManager.getInstance ().push (new Vector2(dungeonPositions [0].y - (map.getCount()/2), dungeonPositions[0].x - (map.getCount()/2)));
+
+		// Criando os Holders dos tiles referentes ao A*
+		openTilesHolder = new GameObject ("Open Tiles Holder");
+		closedTilesHolder = new GameObject ("Closed Tiles Holder");
+		pathTilesHolder = new GameObject ("Path Tiles Holder");
+	}
+
+	void Start()
+	{
+		// Renderiza o mapa de Hyrule, indicando que é o inicio
+		Hyrule (-1);
+
+		// Adicionando Lost Wood à pilha de Objetivos, afinal, esse é o objetivo principal
+
+		GameManager.getInstance ().push (new Vector2(lostWoodsPosition.y - (map.getCount()/2), lostWoodsPosition.x - (map.getCount()/2)));
 
 		// PASSANDO AS DUNGEONS PARA O ALGORITMO DE TRAVELING SALESMAN (HILL CLIMBING) DO GAME MANAGER
 		// PARA QUE ELE POSSA RESOLVER O CAIXEIRO VIAJANTE E EMPILHAR CORRETAMENTE
@@ -379,18 +391,10 @@ public class HyruleMapManager : MonoBehaviour {
 
 		GameManager.getInstance ().travelSalesman (starting_point, nodesTS);
 
-		//GameManager.getInstance ().push (new Vector2(dungeonPositions [1].y - (map.getCount()/2), dungeonPositions[1].x - (map.getCount()/2)));
-		//GameManager.getInstance ().push (new Vector2(dungeonPositions [2].y - (map.getCount()/2), dungeonPositions[2].x - (map.getCount()/2)));
-		//GameManager.getInstance ().push (new Vector2(dungeonPositions [0].y - (map.getCount()/2), dungeonPositions[0].x - (map.getCount()/2)));
-
 		// Instanciando o Agente e guardando sua referência
 		playerRef = Instantiate (player, new Vector3 (playerStartingPosition.y - (map.getCount() / 2),  playerStartingPosition.x - (map.getCount()/2) , -9), Quaternion.identity) as GameObject;
 		playerRef.transform.eulerAngles = new Vector3 (playerRef.transform.eulerAngles.x, playerRef.transform.eulerAngles.y, playerRef.transform.eulerAngles.z + 90);
 
-		// Criando os Holders dos tiles referentes ao A*
-		openTilesHolder = new GameObject ("Open Tiles Holder");
-		closedTilesHolder = new GameObject ("Closed Tiles Holder");
-		pathTilesHolder = new GameObject ("Path Tiles Holder");
 	}
 
 	// ========================================================
