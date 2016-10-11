@@ -524,7 +524,7 @@ public class GameManager : MonoBehaviour {
 				// O Agente então se movimenta
 				StartCoroutine (move_to (movements));
 				#if VISUALIZE_ASTAR_STEPS
-				return true;
+				yield break;
 				#else
 				yield return new WaitForSeconds(delayTime);
 				#endif
@@ -603,7 +603,7 @@ public class GameManager : MonoBehaviour {
 
 	public void saveHyrule()
 	{
-		//Debug.Log ("SAVING HYRULE: " + player);
+		Debug.Log ("SAVING HYRULE: " + player);
 
 		if (positionStack.Count > 0 && !agentBusy) {
 			agentBusy = true;

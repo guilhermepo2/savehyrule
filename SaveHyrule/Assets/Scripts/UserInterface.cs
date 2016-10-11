@@ -87,7 +87,6 @@ public class UserInterface : MonoBehaviour {
 
 	void OnGUI()
 	{
-
 		if (alpha >= 0.7f)
 			alpha = 0.7f;
 		alpha += fadeDir * fadeSpeed * Time.deltaTime;

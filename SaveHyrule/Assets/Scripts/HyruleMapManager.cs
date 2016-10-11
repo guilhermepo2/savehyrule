@@ -370,6 +370,10 @@ public class HyruleMapManager : MonoBehaviour {
 		openTilesHolder = new GameObject ("Open Tiles Holder");
 		closedTilesHolder = new GameObject ("Closed Tiles Holder");
 		pathTilesHolder = new GameObject ("Path Tiles Holder");
+
+		// Instanciando o Agente e guardando sua referência
+		playerRef = Instantiate (player, new Vector3 (playerStartingPosition.y - (map.getCount() / 2),  playerStartingPosition.x - (map.getCount()/2) , -9), Quaternion.identity) as GameObject;
+		playerRef.transform.eulerAngles = new Vector3 (playerRef.transform.eulerAngles.x, playerRef.transform.eulerAngles.y, playerRef.transform.eulerAngles.z + 90);
 	}
 
 	void Start()
@@ -390,11 +394,6 @@ public class HyruleMapManager : MonoBehaviour {
 		nodesTS.Add(new Vector2(dungeonPositions [0].y - (map.getCount()/2), dungeonPositions[0].x - (map.getCount()/2)));
 
 		GameManager.getInstance ().travelSalesman (starting_point, nodesTS);
-
-		// Instanciando o Agente e guardando sua referência
-		playerRef = Instantiate (player, new Vector3 (playerStartingPosition.y - (map.getCount() / 2),  playerStartingPosition.x - (map.getCount()/2) , -9), Quaternion.identity) as GameObject;
-		playerRef.transform.eulerAngles = new Vector3 (playerRef.transform.eulerAngles.x, playerRef.transform.eulerAngles.y, playerRef.transform.eulerAngles.z + 90);
-
 	}
 
 	// ========================================================
